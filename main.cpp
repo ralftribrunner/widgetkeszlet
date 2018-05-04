@@ -1,4 +1,3 @@
-//#include "graphics.hpp"
 #include "widget.hpp"
 #include "number.hpp"
 #include "list.hpp"
@@ -93,3 +92,5 @@ int main()
     ablak->event_loop();
     return 0;
 }
+
+///proba commit

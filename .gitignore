@@ -1,0 +1,8 @@
+bin
+lib
+obj
+include/SDL
+*.dll
+*.ttf
+*.layout
+*.depend
