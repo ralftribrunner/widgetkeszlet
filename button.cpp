@@ -28,7 +28,7 @@ void button::handle(event ev)
 {
     if (selected(ev.pos_x,ev.pos_y) and ev.button>0 and ev.button==btn_left){
        is_on=!is_on;
-       kaland(); ///is_on=!is_on;
+       kaland();
     }
 }
 

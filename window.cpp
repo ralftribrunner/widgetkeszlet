@@ -14,12 +14,12 @@ window::window(int x, int y):X(x),Y(y)
 
 
 void window::kepernyotorlo() {
-    gout<<move_to(0,0)<<color(0,0,0)<<box(X,Y);
+    gout<<move_to(0,0)<<color(255,255,255)<<box(X,Y);
 }
 
  void window::event_loop()
  {
-    std::ofstream ki("allapot.txt");
+    //std::ofstream ki("allapot.txt");
     event ev;
     gin.timer(40);
     while(gin >> ev ) {
@@ -41,11 +41,10 @@ void window::kepernyotorlo() {
         if (ev.type==ev_key and ev.keycode==key_f1){
             for (auto a:widgets)
             {
-                ki<<a->value_of_widget()<<endl;
+                cout<<a->value_of_widget()<<endl;
             }
-            ki<<"\\\\\\\\\\\\\\"<<endl;
+            cout<<"\\\\\\\\\\\\\\"<<endl;
         }
-
         gout<<refresh;
     }
  }

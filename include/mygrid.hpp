@@ -1,0 +1,6 @@
+#ifndef MYGRID_HPP_INCLUDED
+#define MYGRID_HPP_INCLUDED
+
+
+
+#endif // MYGRID_HPP_INCLUDED

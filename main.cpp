@@ -4,85 +4,76 @@
 #include "button.hpp"
 #include "statictext.hpp"
 #include "window.hpp"
+#include "grid.hpp"
 #include <fstream>
 #include <sstream>
 #include <math.h>
-#include<time.h>
-#include<random>
-#include<iostream>
-#include<iterator>
+#include <time.h>
+#include <random>
+#include <iostream>
+#include <iterator>
+
 using namespace genv;
 using namespace std;
 
-class nyomobutton;
-class hozzad_button;
+class racs_attack;
+class racs_defense;
 
-hozzad_button* gomb_hozzaad;
-nyomobutton* gomb;
-number* numb;
-statictext* szoveg;
-list* lista;
-list* lista2;
+racs_attack* attack;
+racs_defense* defense;
+list* irany_lista;
 
 class mywindow:public window {
 public:
 mywindow();
 };
 
-
-class hozzad_button:public button {
-
+class racs_attack:public grid {
 public:
-    hozzad_button(int x, int y, int sx, int sy):button(x,y,sx,sy) {}
-    virtual void kaland(){
-        lista2->elem_hozzaad(szoveg->value_of_widget());
-    }
+    racs_attack(int x, int y, int sx, int sy, string type):grid(x,y,sx,sy,type) {}
+    friend class racs_defense;
+    void action_stations() {}
+    virtual void over() {
+//        defense->hp=0;
+        }
+    bool another_selected(int x, int y) {}
+    void irany_lekerdezes() {}
 };
 
-class nyomobutton:public button {
-
+class racs_defense:public grid {
 public:
-    nyomobutton(int x, int y, int sx, int sy):button(x,y,sx,sy) {}
-    virtual void kaland(){
-        numb->nullaz();
+    racs_defense(int x, int y, int sx, int sy, string type):grid(x,y,sx,sy,type) {}
+    friend class racs_attack;
+    virtual void action_stations() {
+        attack->player_ready=true;
+    }
+    virtual void over() {
+        attack->hp=0;
+    }
+    virtual bool another_selected(int x, int y) {
+        int aktualx=floor((x-attack->_x)/attack->public_cell_size);
+        int aktualy=floor((y-attack->_y)/attack->public_cell_size);
+        if (x>attack->_x and x<attack->_x+attack->_sx*attack->public_cell_size and y>attack->_y and y<attack->_y+attack->_sy*attack->public_cell_size
+        and attack->mezok[aktualy][aktualx].volt_mar==false) return true;
+    }
+    virtual void irany_lekerdezes() {
+        defense->aktirany=irany_lista->value_of_widget();
     }
 };
 
 mywindow::mywindow() : window(800,500) {
-    vector<string> elemek;
-    elemek.push_back("Prokofiev");
-    elemek.push_back("Schumann");
-    elemek.push_back("Mozart");
-    elemek.push_back("Haydn");
-    elemek.push_back("Strauss");
-    elemek.push_back("Wagner");
-    elemek.push_back("Beethoven");
-    elemek.push_back("Brahms");
-    elemek.push_back("Dvorak");
-    elemek.push_back("Liszt");
-    elemek.push_back("Schubert");
-    elemek.push_back("Chopin");
-    vector<string> elemek2;
-    elemek2.push_back("Audi");
-    elemek2.push_back("Skoda");
-    elemek2.push_back("Mercedes-Benz");
-    elemek2.push_back("Renault");
-    elemek2.push_back("Ferrari");
-    elemek2.push_back("Porsche");
-    elemek2.push_back("Toyota");
-    elemek2.push_back("Kia");
-    lista=new list(200,300,120,100,elemek);
-    lista2=new list(400,300,130,60,elemek2);
-    gomb=new nyomobutton(20,450,130,40);
-    gomb_hozzaad=new hozzad_button(10,10,20,20);
-    numb=new number(300,100,200,100,20,-10);
-    szoveg=new statictext(150,10,200,50);
-    widgets.push_back(gomb_hozzaad);
-    widgets.push_back(szoveg);
-    widgets.push_back(lista);
-    widgets.push_back(lista2);
-    widgets.push_back(gomb);
-    widgets.push_back(numb);
+    attack=new racs_attack(400,30,3,3,"computer");
+    defense=new racs_defense(50,30,3,3,"player");
+    vector<string> iranyok;
+    iranyok.push_back("fel");
+    iranyok.push_back("le");
+    iranyok.push_back("jobbra");
+    iranyok.push_back("balra");
+    irany_lista=new list(100,400,100,80,iranyok);
+    widgets.push_back(irany_lista);
+    widgets.push_back(defense);
+    widgets.push_back(attack);
+
 }
 
 
@@ -93,4 +84,3 @@ int main()
     return 0;
 }
 
-///proba commit
