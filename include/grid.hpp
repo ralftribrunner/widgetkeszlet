@@ -22,9 +22,10 @@ class grid:public Widget {
     bool player_ready;
     std::string grid_type;
     int hp;
-    int public_flotta_size;
     int public_cell_size;
     std::string aktirany;
+    std::string akttipus;
+    bool battle;
 public:
     grid(int x, int y, int sx, int sy, std::string type);
     bool racs_selected(int x,int y);
@@ -35,6 +36,7 @@ public:
     virtual void action_stations()=0;
     virtual void over()=0;
     virtual bool another_selected(int x, int y)=0;
+    virtual void tipus_lekerdezes()=0;
     virtual void irany_lekerdezes()=0;
     std::string value_of_widget();
     std::string widget_type();
